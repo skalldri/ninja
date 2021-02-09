@@ -213,6 +213,35 @@ TEST_F(DiskInterfaceTest, RemoveFile) {
   EXPECT_EQ(1, disk_.RemoveFile("does not exist"));
 }
 
+TEST_F(DiskInterfaceTest, LongPathRemove) {
+  string longPath;
+  for (int i = 0; i < 255; i++) {
+    longPath += "a";
+  }
+  ASSERT_TRUE(Touch(longPath.c_str()));
+  EXPECT_EQ(0, disk_.RemoveFile(longPath.c_str()));
+}
+
+/*
+TEST_F(DiskInterfaceTest, LongPathRead) {
+  string longPath;
+  for (int i = 0; i < 255; i++) {
+    longPath += "a";
+  }
+  ASSERT_TRUE(Touch(longPath.c_str()));
+  EXPECT_EQ(0, disk_.RemoveFile(longPath.c_str()));
+}
+
+TEST_F(DiskInterfaceTest, LongPathWrite) {
+  string longPath;
+  for (int i = 0; i < 255; i++) {
+    longPath += "a";
+  }
+  ASSERT_TRUE(Touch(longPath.c_str()));
+  EXPECT_EQ(0, disk_.RemoveFile(longPath.c_str()));
+}
+*/
+
 struct StatTest : public StateTestWithBuiltinRules,
                   public DiskInterface {
   StatTest() : scan_(&state_, NULL, NULL, this, NULL) {}

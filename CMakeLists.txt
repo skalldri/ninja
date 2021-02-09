@@ -191,7 +191,7 @@ if(BUILD_TESTING)
     src/util_test.cc
   )
   if(WIN32)
-    target_sources(ninja_test PRIVATE src/includes_normalize_test.cc src/msvc_helper_test.cc)
+    target_sources(ninja_test PRIVATE src/includes_normalize_test.cc src/msvc_helper_test.cc src/app.manifest)
   endif()
   target_link_libraries(ninja_test PRIVATE libninja libninja-re2c)
 
@@ -205,6 +205,9 @@ if(BUILD_TESTING)
   )
     add_executable(${perftest} src/${perftest}.cc)
     target_link_libraries(${perftest} PRIVATE libninja libninja-re2c)
+	if(WIN32)
+	  target_sources(${perftest} PRIVATE src/app.manifest)
+	endif()
   endforeach()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
